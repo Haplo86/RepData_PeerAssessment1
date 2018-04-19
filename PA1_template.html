@@ -253,8 +253,8 @@ p3 + geom_histogram(stat = 'identity', fill = 'firebrick') +
 </div>
 <div id="differences-in-activity-patterns-between-weekdays-and-weekends" class="section level2">
 <h2>Differences in activity patterns between weekdays and weekends</h2>
-<div id="factor-variable-in-the-dataset-with-two-levels-a-aweekdaya-and-aweekenda-indicating-whether-a-given-date-is-a-weekday-or-weekend-day" class="section level3">
-<h3>Factor variable in the dataset with two levels â âweekdayâ and âweekendâ indicating whether a given date is a weekday or weekend day</h3>
+<div id="factor-variable-in-the-dataset-with-two-levels-weekdays-and-weekends-indicating-whether-a-given-date-is-a-weekday-or-weekend-day" class="section level3">
+<h3>Factor variable in the dataset with two levels: weekdays and weekends indicating whether a given date is a weekday or weekend day</h3>
 <p>First I changed my locale so to have the names of the days in English, then I transformed the format of the date so to have the name of the week abbreviated. After that I added a new column, <code>days</code>, in which I stored the type of day of the week, <code>weekends</code> or <code>weekdays</code>. I factorized the column, gave it the name <code>days</code> and finally i grouped it by interval and days, summarising the mean of the steps.</p>
 <pre class="r"><code>Sys.setlocale(&quot;LC_ALL&quot;,&quot;English&quot;)</code></pre>
 <pre><code>## [1] &quot;LC_COLLATE=English_United States.1252;LC_CTYPE=English_United States.1252;LC_MONETARY=English_United States.1252;LC_NUMERIC=C;LC_TIME=English_United States.1252&quot;</code></pre>

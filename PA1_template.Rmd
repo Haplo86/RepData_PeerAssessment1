@@ -4,7 +4,7 @@ author: "Alberto Olivieri"
 date: "18 aprile 2018"
 output:
   html_document:
-          keep_md: true
+    keep_md: yes
 ---
 ```{r global_options, include=FALSE}
 rm(list=ls())
@@ -23,7 +23,7 @@ library(ggplot2)
 
 2. Load the data in a variable (`act` in this case):
 
-```{r loading the data}
+```{r loading_the_data}
 act <- read.table('activity.csv', sep = ',', header = T)
 ```
 
@@ -33,7 +33,7 @@ act <- read.table('activity.csv', sep = ',', header = T)
 
 * Store in a variable (`sum`) the sum of the data grouped by the date:
 
-```{r total sum}
+```{r total_sum}
 sum  <- act %>% group_by(date) %>% summarise(steps_sum = sum(steps, na.rm = T))
 ```
 
@@ -41,7 +41,7 @@ sum  <- act %>% group_by(date) %>% summarise(steps_sum = sum(steps, na.rm = T))
 
 * And then use the variable `sum` as a base for the plot:
 
-```{r first plot}
+```{r first_plot}
 p <- ggplot(sum, aes(x = date, y = steps_sum))
 p + geom_histogram(stat = 'identity', fill = 'firebrick') +
         labs(title = 'Steps taken per day with missing values', x = 'Date', 
@@ -53,7 +53,7 @@ p + geom_histogram(stat = 'identity', fill = 'firebrick') +
 
 * This step uses the same variable `sum`, under the code the resulsts are visible
 
-```{r mean and median}
+```{r mean_and_median}
 mean(sum$steps_sum)
 median(sum$steps_sum)
 ```
@@ -62,7 +62,7 @@ median(sum$steps_sum)
 
 * Store in a variable (`average`) the mean of the data grouped by the intervals:
 
-```{r avg intervals}
+```{r avg_intervals}
 average <- act %>% group_by(interval) %>% summarise(steps_mean = mean(steps, na.rm = T))
 ```
 
@@ -70,7 +70,7 @@ average <- act %>% group_by(interval) %>% summarise(steps_mean = mean(steps, na.
 
 * And then use the variable `average` as a base for the plot:
 
-```{r second plot}
+```{r second_plot}
 p2 <- ggplot(average, aes(x = interval, y = steps_mean, group = 1))
 p2 + geom_line(col = 'firebrick') + labs(title = 'Steps taken on average per interval', 
                                          x = 'Intervals',
@@ -81,7 +81,7 @@ p2 + geom_line(col = 'firebrick') + labs(title = 'Steps taken on average per int
 
 * This step uses the same variable `average`, under the code the resulsts are visible
 
-```{r max avg intervals}
+```{r max_avg_intervals}
 max_avg <- which.max(average$steps_mean)
 average[max_avg,1]
 ```
@@ -92,7 +92,7 @@ average[max_avg,1]
 
 * simple `length` function called on a `is.na` subset of `act`
 
-```{r NA number}
+```{r NA_number}
 length(act[is.na(act[,1]),1])
 ```
 
@@ -100,7 +100,7 @@ length(act[is.na(act[,1]),1])
 
 First i stored in `incomplete_values` all the rows of `act` with an `NA`, then I transformed `average` from a Tibble into a Data Frame for using it subsquently. After that I merged the `incomplete_values` and the `average` Data Frames by the column 'Interval', with a left outer join (`all.x = T`, and `x = incomplete_values`). I sorted the values by date first and interval second to break the ties, so to have the values ordered as in the original `act`. Finally I created a copy of `act`, `act2`, i subsetted all the `NA` values and I substituted them with the values from the fourth column of `sorted_values`, the mean by time intervals.
 
-```{r NA substitution}
+```{r NA_substitution}
 incomplete_values <- act[is.na(act[,1]),]
 average <- as.data.frame(average)
 merged_values <- merge(incomplete_values, average, by = 'interval', all.x = T)
@@ -114,13 +114,13 @@ act2[is.na(act2[,1]),1] <- sorted_values[,4]
 
 * Store in a variable (`sum2`) the sum of the data grouped by the date:
 
-```{r total sum2}
+```{r total_sum2}
 sum2  <- act2 %>% group_by(date) %>% summarise(steps_sum = sum(steps, na.rm = T))
 ```
 
 * And then use the variable `sum2` as a base for the plot:
 
-```{r third plot}
+```{r third_plot}
 p3 <- ggplot(sum2, aes(x = date, y = steps_sum))
 p3 + geom_histogram(stat = 'identity', fill = 'firebrick') +
         labs(title = 'Steps taken per day with missing values imputed', x = 'Date',
@@ -130,21 +130,21 @@ p3 + geom_histogram(stat = 'identity', fill = 'firebrick') +
 
 * This step uses the same variable `sum2`, under the code the resulsts are visible
 
-```{r mean and median 2}
+```{r mean_and_median2}
 mean(sum2$steps_sum)
 median(sum2$steps_sum)
 ```
 
 * Differences between the results
 
-```{r mean and median 3}
+```{r mean_and_median3}
 mean(sum$steps_sum)-mean(sum2$steps_sum)
 median(sum$steps_sum)-median(sum2$steps_sum)
 ```
 
 ## Differences in activity patterns between weekdays and weekends
 
-### Factor variable in the dataset with two levels – “weekday” and “weekend” indicating whether a given date is a weekday or weekend day
+### Factor variable in the dataset with two levels: weekdays and weekends indicating whether a given date is a weekday or weekend day
 
 First I changed my locale so to have the names of the days in English, then I transformed the format of the date so to have the name of the week abbreviated. After that I added a new column, `days`, in which I stored the type of day of the week, `weekends` or `weekdays`. I factorized the column, gave it the name `days` and finally i grouped it by interval and days, summarising the mean of the steps.
 
@@ -167,7 +167,7 @@ act2_avg <- act2 %>% group_by(interval, days) %>%
 
 * I used the variable `act2_avg` as a base for the plot:
 
-```{r fourth plot}
+```{r fourth_plot}
 p4 <- ggplot(act2_avg, aes(x = interval, y = steps_mean, col = days))
 p4 + geom_line() +labs(title = 'Steps taken on average in per interval', 
              x = 'Intervals', y = 'Average steps per Interval',

@@ -4,7 +4,7 @@ author: "Alberto Olivieri"
 date: "18 aprile 2018"
 output:
   html_document:
-          keep_md: true
+    keep_md: yes
 ---
 
 ## Loading and preprocessing the data and libraries
@@ -48,7 +48,7 @@ p + geom_histogram(stat = 'identity', fill = 'firebrick') +
         theme(axis.text.x = element_text(angle = 90, vjust = 0.4))
 ```
 
-![](PA1_template_files/figure-html/first plot-1.png)<!-- -->
+![](PA1_template_files/figure-html/first_plot-1.png)<!-- -->
 
 ## Calculate and report the mean and median of the total number of steps taken per day
 
@@ -92,7 +92,7 @@ p2 + geom_line(col = 'firebrick') + labs(title = 'Steps taken on average per int
                                          y = 'Average steps per interval') 
 ```
 
-![](PA1_template_files/figure-html/second plot-1.png)<!-- -->
+![](PA1_template_files/figure-html/second_plot-1.png)<!-- -->
 
 ## 5-minute interval, on average across all the days in the dataset, containing the maximum number of steps
 
@@ -161,7 +161,7 @@ p3 + geom_histogram(stat = 'identity', fill = 'firebrick') +
                                                                    vjust = 0.4))
 ```
 
-![](PA1_template_files/figure-html/third plot-1.png)<!-- -->
+![](PA1_template_files/figure-html/third_plot-1.png)<!-- -->
 
 * This step uses the same variable `sum2`, under the code the resulsts are visible
 
@@ -203,7 +203,7 @@ median(sum$steps_sum)-median(sum2$steps_sum)
 
 ## Differences in activity patterns between weekdays and weekends
 
-### Factor variable in the dataset with two levels – “weekday” and “weekend” indicating whether a given date is a weekday or weekend day
+### Factor variable in the dataset with two levels: weekdays and weekends indicating whether a given date is a weekday or weekend day
 
 First I changed my locale so to have the names of the days in English, then I transformed the format of the date so to have the name of the week abbreviated. After that I added a new column, `days`, in which I stored the type of day of the week, `weekends` or `weekdays`. I factorized the column, gave it the name `days` and finally i grouped it by interval and days, summarising the mean of the steps.
 
@@ -241,6 +241,6 @@ p4 + geom_line() +labs(title = 'Steps taken on average in per interval',
              col = 'Days of the week') + facet_grid(days~.)
 ```
 
-![](PA1_template_files/figure-html/fourth plot-1.png)<!-- -->
+![](PA1_template_files/figure-html/fourth_plot-1.png)<!-- -->
  
 
