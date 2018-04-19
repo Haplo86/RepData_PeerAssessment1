@@ -41,18 +41,27 @@ sum  <- act %>% group_by(date) %>% summarise(steps_sum = sum(steps, na.rm = T))
 
 
 ```r
-p <- ggplot(sum, aes(x = date, y = steps_sum))
-p + geom_histogram(stat = 'identity', fill = 'firebrick') +
-        labs(title = 'Steps taken per day with missing values', x = 'Date', 
-             y = 'Total steps') +
-        theme(axis.text.x = element_text(angle = 90, vjust = 0.4))
+p <- ggplot(sum, aes(x = steps_sum))
+p + geom_histogram(fill = 'firebrick', color = 'black') +
+        labs(title = 'Steps taken per day without missing values',
+             y = 'Frequency', x = 'Total steps')
 ```
 
 ![](PA1_template_files/figure-html/first_plot-1.png)<!-- -->
 
+
+```r
+pl <- ggplot(sum, aes(x = log(steps_sum)))
+pl + geom_histogram(fill = 'firebrick', color = 'black') +
+        labs(title = 'Steps taken per day without missing values - LOG', 
+             y = 'Frequency', x = 'Total steps')
+```
+
+![](PA1_template_files/figure-html/first_plotlog-1.png)<!-- -->
+
 ## Calculate and report the mean and median of the total number of steps taken per day
 
-* This step uses the same variable `sum`, under the code the resulsts are visible
+* This step uses the same variable `sum`, under the code the results are visible
 
 
 ```r
@@ -96,7 +105,7 @@ p2 + geom_line(col = 'firebrick') + labs(title = 'Steps taken on average per int
 
 ## 5-minute interval, on average across all the days in the dataset, containing the maximum number of steps
 
-* This step uses the same variable `average`, under the code the resulsts are visible
+* This step uses the same variable `average`, under the code the results are visible
 
 
 ```r
@@ -128,7 +137,7 @@ length(act[is.na(act[,1]),1])
 
 ### filling in all of the missing values in the dataset & creating a new dataset that is equal to the original dataset but with the missing data filled in
 
-First i stored in `incomplete_values` all the rows of `act` with an `NA`, then I transformed `average` from a Tibble into a Data Frame for using it subsquently. After that I merged the `incomplete_values` and the `average` Data Frames by the column 'Interval', with a left outer join (`all.x = T`, and `x = incomplete_values`). I sorted the values by date first and interval second to break the ties, so to have the values ordered as in the original `act`. Finally I created a copy of `act`, `act2`, i subsetted all the `NA` values and I substituted them with the values from the fourth column of `sorted_values`, the mean by time intervals.
+First i stored in `incomplete_values` all the rows of `act` with an `NA`, then I transformed `average` from a Tibble into a Data Frame for using it subsequently. After that I merged the `incomplete_values` and the `average` Data Frames by the column 'Interval', with a left outer join (`all.x = T`, and `x = incomplete_values`). I sorted the values by date first and interval second to break the ties, so to have the values ordered as in the original `act`. Finally I created a copy of `act`, `act2`, i subsetted all the `NA` values and I substituted them with the values from the fourth column of `sorted_values`, the mean by time intervals.
 
 
 ```r
@@ -154,16 +163,25 @@ sum2  <- act2 %>% group_by(date) %>% summarise(steps_sum = sum(steps, na.rm = T)
 
 
 ```r
-p3 <- ggplot(sum2, aes(x = date, y = steps_sum))
-p3 + geom_histogram(stat = 'identity', fill = 'firebrick') +
-        labs(title = 'Steps taken per day with missing values imputed', x = 'Date',
-             y = 'Total steps') + theme(axis.text.x = element_text(angle = 90, 
-                                                                   vjust = 0.4))
+p3l <- ggplot(sum2, aes(x = steps_sum))
+p3l + geom_histogram(col = 'black', fill = 'firebrick') +
+        labs(title = 'Steps taken per day with missing values', 
+             x = 'Total steps', y = 'Frequency')
 ```
 
 ![](PA1_template_files/figure-html/third_plot-1.png)<!-- -->
 
-* This step uses the same variable `sum2`, under the code the resulsts are visible
+
+```r
+p3l <- ggplot(sum2, aes(x = log(steps_sum)))
+p3l + geom_histogram(col = 'black', fill = 'firebrick') +
+        labs(title = 'Steps taken per day with missing values - LOG', 
+             x = 'Total steps', y = 'Frequency')
+```
+
+![](PA1_template_files/figure-html/third_plotlog-1.png)<!-- -->
+
+* This step uses the same variable `sum2`, under the code the results are visible
 
 
 ```r
@@ -205,7 +223,7 @@ median(sum$steps_sum)-median(sum2$steps_sum)
 
 ### Factor variable in the dataset with two levels: weekdays and weekends indicating whether a given date is a weekday or weekend day
 
-First I changed my locale so to have the names of the days in English, then I transformed the format of the date so to have the name of the week abbreviated. After that I added a new column, `days`, in which I stored the type of day of the week, `weekends` or `weekdays`. I factorized the column, gave it the name `days` and finally i grouped it by interval and days, summarising the mean of the steps.
+First I changed my locale so to have the names of the days in English, then I transformed the format of the date so to have the name of the week abbreviated. After that I added a new column, `days`, in which I stored the type of day of the week, `weekends` or `weekdays`. I factorized the column, gave it the name `days` and finally i grouped it by interval and days, summarizing the mean of the steps.
 
 
 ```r
